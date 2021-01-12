@@ -1,15 +1,151 @@
-import React,{ Component } from 'react'
+import React,{
+  Component,
+  // useState
+}from 'react'
 import Header from "../header/index";
+import request from '../../utils/request';
 import './index.scss'
+import {
+  throttle,
+  getScrollTop,
+  getDocumentHeight,
+  getWindowHeight,
+  // getQueryStringByName,
+  timestampToTime,
+} from '../../utils/utils';
+
+// 获取可视区域的高度
+const viewHeight = window.innerHeight || document.documentElement.clientHeight;
+// 用新的 throttle 包装 scroll 的回调
+
+// eslint-disable-next-line no-unused-vars
+const lazyload = throttle(() => {
+  // 获取所有的图片标签
+  const imgs = document.querySelectorAll('#list img');
+  console.log(imgs);
+  // num 用于统计当前显示到了哪一张图片，避免每次都从第一张图片开始检查是否露出
+  let num = 0;
+  for (let i = num; i < imgs.length; i++) {
+    // 用可视区域高度减去元素顶部距离可视区域顶部的高度
+    let distance = viewHeight - imgs[i].getBoundingClientRect().top;
+    // 如果可视区域高度大于等于元素顶部距离可视区域顶部的高度，说明元素露出
+    if (distance >= 100) {
+      // 给元素写入真实的 src，展示图片
+      let hasLaySrc = imgs[i].getAttribute('data-has-lazy-src');
+      if (hasLaySrc === 'false') {
+        imgs[i].src = imgs[i].getAttribute('data-src');
+        imgs[i].setAttribute('data-has-lazy-src', true);
+      }
+      // 前 i 张图片已经加载完毕，下次从第 i+1 张开始检查是否露出
+      num = i + 1;
+    }
+  }
+}, 1000);
 
 class home extends Component{
+  constructor(props) {
+    super(props);
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    // const [count, setCount] = useState(0);
+    this.state = {
+      isLoadEnd: false,
+      isLoading: false,
+      isHidden: true,
+      page: 1,
+      pageSize: 10,
+      list: [],
+      total: 0
+    }
+    this.getArticles = this.getArticles.bind(this)
+  }
+
+  componentDidMount = () => {
+    window.onscroll = () => {
+      this.setState(preState => ({
+        isHidden: !(getScrollTop()>0)
+      }));
+      setTimeout(() => {
+        if (getScrollTop() + getWindowHeight() > getDocumentHeight() - 100) {
+          // 如果不是已经没有数据了，都可以继续滚动加载
+          if (this.state.isLoadEnd === false && this.state.isLoading === false) {
+            let page = this.state.page + 1
+            this.setState({
+              page: page
+            });
+            this.getArticles();
+          }
+        }
+      },500)
+    };
+    this.getArticles()
+  }
+
+  componentWillUnmount = () => {
+    this.setState = (state,callback)=>{
+      return;
+    };
+  }
+
+  getArticles() {
+    this.setState({
+      isLoading: true,
+    });
+    let params = {
+      page: this.state.page,
+      pageSize: this.state.pageSize
+    }
+    request.get('/article',{params:params}).then(data =>{
+      this.setState(preState => ({
+        list: [...preState.list, ...data.data],
+        total: data.total,
+        isLoading: false,
+      }));
+
+      if(this.state.list.length >= data.total) {
+        this.setState({
+          isLoadEnd: true
+        })
+      }
+
+    })
+  }
 
   render() {
-    let isHidden = true
+
+    const list = this.state.list.map((item,i) => (
+      <li className="article" id="list" key={i}>
+        <div className={`article-left border-shadow ${i%2 !== 0? 'left' : 'right'}`}>
+          <div className="detail-content">
+            <div className="detail-publish">
+              <i className="iconfont icon-shijian2"></i>
+              {item.createdAt?timestampToTime(item.createdAt,true):''}
+            </div>
+            <div className="detail-title">{item.title}</div>
+            <div className="detail-meta">
+              <div className="meta-box"><i className="iconfont icon-yanjing"></i>{item.browseNum}</div>
+              <div className="meta-box"><i className="iconfont icon-huifu"></i>{item.replyNum}</div>
+              <div className="meta-box"><i className="iconfont icon-zuozhe"></i>{item.author}</div>
+            </div>
+            <div className="detail-abstract">
+              <p>摘要：</p>
+              <p style={{textIndent: '2em'}}>{item.abstract}</p>
+            </div>
+            <div className="detail-edit">
+              <div><i className="iconfont icon-shenglvehao"></i></div>
+            </div>
+          </div>
+        </div>
+
+        <div className={`article-right border-shadow ${i%2 === 0? 'left' : 'right'}`}>
+          <img className="cover-img" data-src={item.coverImgUrl} src={item.coverImgUrl} alt="图片"/>
+        </div>
+
+      </li>
+    ))
 
     return (
       <div className="home">
-        <div className={isHidden?'header':'header active'} >
+        <div className={`header ${this.state.isHidden? '': 'active'}`}>
           <Header/>
         </div>
 
@@ -29,9 +165,10 @@ class home extends Component{
           </div>
 
           <ul className="article-list">
-            <li className="article">
-              qe1
-            </li>
+            {/*<li className="article">*/}
+            {/*  qe1*/}
+            {/*</li>*/}
+            {list}
           </ul>
         </div>
 

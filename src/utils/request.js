@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { message } from 'antd'
 import config from './config'
-import { browserHistory } from 'react-router-dom'
+import { BrowserRouter } from 'react-router-dom'
 
 
 const service = axios.create({
@@ -46,7 +46,7 @@ service.interceptors.response.use(
                     break
                 case 401:
                     // 返回401 清除token信息并跳转到登陆页面
-                    browserHistory.push( '/')
+                    BrowserRouter.push( '/')
                     break
                 case 404:
                     message.error('网络请求不存在')
