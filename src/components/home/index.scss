@@ -1,0 +1,239 @@
+.home{
+  z-index: 0;
+  //  菜单栏
+  .header{
+    opacity: 0;
+    transition: all .5s linear;
+    //&:hover{
+    //  opacity: 1;
+    //}
+  }
+
+  .active {
+    opacity: 1;
+  }
+
+  //背景盒子
+  .bg-box{
+    z-index: 0;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: #ff0;
+    //background-image: url("https://zouwang.vip/wp-content/themes/Sakura/cover/index.php");
+    /*background-image: url("../assets/bg.jpg");*/
+    background-position: top center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+  }
+
+  .main{
+    position: absolute;
+    top: 100vh;
+    left: 0;
+    right: 0;
+    background: #fff;
+    z-index: 120;
+    /*margin: 100vh auto 0 auto;*/
+    min-width: 800px;
+    min-height: 100vh;
+    /**/
+    .operate{
+      z-index: 120;
+      position: absolute;
+      top: -50vh;
+      left: 50%;
+      transform: translateX(-50%);
+      height: calc(50vh - 70px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      /*animation: topmove 2s infinite;*/
+      .header-top{
+        cursor: pointer;
+        z-index: 5;
+        animation: topmove 1.5s infinite alternate;
+        i{
+          font-size: 28px;
+          color: #fff;
+        }
+      }
+      @keyframes topmove {
+        from {
+          transform: translateY(0px);
+        }
+        to {
+          transform: translateY(10px);
+        }
+        /*from {height: calc(50vh - 70px);}*/
+        /*to {height: calc(50vh - 56px);}*/
+      }
+    }
+
+    /*波浪特效*/
+    .wave {
+      z-index: 20;
+      position: absolute;
+      top: -110px;
+      height: 110px;
+      width: 100%;
+      overflow: hidden;
+      transition: .4s ease all;
+      #banner_wave_1,
+      #banner_wave_2 {
+        position: absolute;
+        width: 200%;
+        height: 100%;
+        background-size: 50% 100%;
+      }
+      #banner_wave_1 {
+        top: 30px;
+        left: -100%;
+        opacity: 1;
+        animation: water-right 20s infinite linear;
+        background: url(https://zouwang.vip/wp-content/uploads/2019/09/wave1.png) repeat-x;
+      }
+      #banner_wave_2 {
+        top: 30px;
+        left: 0;
+        opacity: 1;
+        animation: water-left 30s infinite linear;
+        background: url(https://zouwang.vip/wp-content/uploads/2019/09/wave2.png) repeat-x;
+      }
+      @keyframes water-right {
+        0% {
+          transform: translateX(0) translateZ(0) scaleY(1)
+        }
+        50% {
+          transform: translateX(25%) translateZ(0) scaleY(0.85)
+        }
+        100% {
+          transform: translateX(50%) translateZ(0) scaleY(1)
+        }
+      }
+      @keyframes water-left {
+        from {
+          transform: translate(0%, 0px);
+        }
+        to {
+          transform: translate(-50%, 0px);
+        }
+      }
+    }
+
+    //文章列表
+    .article-list{
+
+      .article{
+        cursor: pointer;
+        width: 800px;
+        height: 300px;
+        margin: 40px auto;
+        display: flex;
+        flex-flow:row;
+        border-radius: 10px;
+        box-shadow: 0 1px 20px -8px rgba(0, 0, 0, .5);
+        /*overflow: hidden;*/
+
+        .left{
+          order: 1;
+        }
+        .right{
+          order: 2;
+        }
+
+        .article-left{
+          flex: 1;
+          overflow: hidden;
+          position: relative;
+          .detail-content{
+            text-align: left;
+            width: 300px;
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            .detail-publish{
+              color: #888;
+              font-size: 13px;
+              display: flex;
+              align-items: center;
+              i{
+                margin-right: 6px;
+              }
+            }
+            .detail-title{
+              text-overflow: ellipsis;
+              overflow: hidden;
+              word-wrap: break-word;
+              font-size: 18px;
+              margin: 15px 0;
+              font-weight: 600;
+            }
+            .detail-meta{
+              color: #888;
+              font-size: 14px;
+              display: flex;
+              justify-content: space-around;
+              .meta-box{
+                display: flex;
+                align-items: center;
+                i{
+                  margin-right: 6px;
+                }
+              }
+            }
+            .detail-abstract{
+              font-size: 16px;
+              width: 100%;
+              color: rgba(0, 0, 0, .66);
+              height: 104px;
+              overflow: hidden;
+              margin: 16px 0 30px;
+              p{
+                line-height: 25px;
+              }
+            }
+            .detail-edit{
+              padding: 0 20px;
+              text-align: right;
+              /*display: flex;*/
+              /*justify-content: space-between;*/
+              /*align-items: center;*/
+              color: #333;
+              i{
+                color: #666;
+                font-size: 24px;
+              }
+              i:hover{
+                color: #ccc;
+              }
+            }
+          }
+        }
+
+        .article-right{
+          overflow: hidden;
+          width: 429px;
+          .cover-img:hover {
+            transform: scale(1.1)
+          }
+          .cover-img{
+            /*429 300*/
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all .6s
+          }
+        }
+      }
+    }
+  }
+}
