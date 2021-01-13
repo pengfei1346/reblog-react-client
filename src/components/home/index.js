@@ -57,33 +57,36 @@ class home extends Component{
       total: 0
     }
     this.getArticles = this.getArticles.bind(this)
+    this.pageScroll = this.pageScroll.bind(this)
   }
 
   componentDidMount = () => {
-    window.onscroll = () => {
-      this.setState(preState => ({
-        isHidden: !(getScrollTop()>0)
-      }));
-      setTimeout(() => {
-        if (getScrollTop() + getWindowHeight() > getDocumentHeight() - 100) {
-          // 如果不是已经没有数据了，都可以继续滚动加载
-          if (this.state.isLoadEnd === false && this.state.isLoading === false) {
-            let page = this.state.page + 1
-            this.setState({
-              page: page
-            });
-            this.getArticles();
-          }
-        }
-      },500)
-    };
+    window.addEventListener('scroll',this.pageScroll)
     this.getArticles()
   }
 
   componentWillUnmount = () => {
-    this.setState = (state,callback)=>{
-      return;
-    };
+    window.removeEventListener('scroll',this.pageScroll)
+  }
+
+  pageScroll() {
+    let isHidden = getScrollTop()>0
+    this.setState({
+      isHidden: !isHidden
+    });
+
+    setTimeout(() => {
+      if (getScrollTop() + getWindowHeight() > getDocumentHeight() - 100) {
+        // 如果不是已经没有数据了，都可以继续滚动加载
+        if (this.state.isLoadEnd === false && this.state.isLoading === false) {
+          let page = this.state.page + 1
+          this.setState({
+            page: page
+          });
+          this.getArticles();
+        }
+      }
+    },500)
   }
 
   getArticles() {
