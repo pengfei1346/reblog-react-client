@@ -22,7 +22,16 @@
       color: rgb(230, 217, 113) !important;
     }
   }
+
   .active {
     color: rgb(230, 217, 113) !important;
   }
+}
+
+.hidden {
+  opacity: 0;
+}
+
+.show {
+  opacity: 1;
 }
