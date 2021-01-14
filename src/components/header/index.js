@@ -30,14 +30,14 @@ class Header extends Component {
     return true
   }
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    // console.log('prevProps--', prevProps);
-    // if(prevState.className !== prevState.fatherName) {
-    //   this.setState({
-    //     fatherName: prevState.fatherName
-    //   })
-    // }
-  }
+  // componentDidUpdate(prevProps, prevState, snapshot) {
+  //   // console.log('prevProps--', prevProps);
+  //   // if(prevState.className !== prevState.fatherName) {
+  //   //   this.setState({
+  //   //     fatherName: prevState.fatherName
+  //   //   })
+  //   // }
+  // }
 
   render() {
     const {pathname} = this.props.location
