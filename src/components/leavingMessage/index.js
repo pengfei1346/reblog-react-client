@@ -1,12 +1,6 @@
-import {
-  Link
-} from 'react-router-dom'
-
 const Home = () => (
   <div>
-    <h2>Home</h2>
-
-    <Link to="/About">go About</Link>
+    <h2 style={{textAlign: 'center',paddingTop: '40px'}}>建设中...</h2>
   </div>
 )
 

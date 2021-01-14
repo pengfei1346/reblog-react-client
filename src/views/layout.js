@@ -5,7 +5,6 @@ import Index from '../components/home/index';
 import './index.scss'
 
 const {
-  Header,
   // Footer,
   Content
 } = Layout;
@@ -25,9 +24,7 @@ class layout extends Component {
     if (isShowHeader) {
       return (
         <div className="main-body">
-          <Header>
-            <BaseHeader/>
-          </Header>
+          <BaseHeader/>
 
           <Content style={{marginTop: '70px'}}>
             {this.props.children}
