@@ -31,7 +31,7 @@ class Header extends Component {
   }
 
   // componentDidUpdate(prevProps, prevState, snapshot) {
-  //   // console.log('prevProps--', prevProps);
+  //   // console.log('p。revProps--', prevProps);
   //   // if(prevState.className !== prevState.fatherName) {
   //   //   this.setState({
   //   //     fatherName: prevState.fatherName
