@@ -150,7 +150,7 @@ class home extends Component{
 
     return (
       <div className="home">
-        <Header className={this.state.isHidden? 'hidden': 'show'}/>
+        <Header className={this.state.isHidden? 'hidden header': 'show header'}/>
 
         <div className="bg-box" />
 

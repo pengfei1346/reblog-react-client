@@ -24,6 +24,10 @@
     justify-content: center;
   }
 
+  .header:hover {
+    opacity: 1;
+  }
+
   .main{
     position: absolute;
     top: 100vh;
